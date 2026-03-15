@@ -1,0 +1,52 @@
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: 13.5px;
+  max-width: 380px;
+  animation: slideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+  from { transform: translateY(12px); opacity: 0 }
+  to   { transform: translateY(0);    opacity: 1 }
+}
+
+.icon {
+  flex-shrink: 0;
+  color: #f87171;
+}
+
+.message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.dismiss {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.dismiss:hover {
+  background: rgba(255,255,255,0.2);
+  color: #f9fafb;
+}
