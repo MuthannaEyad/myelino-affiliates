@@ -34,6 +34,9 @@
 .total .value { color: var(--text-primary); }
 .total .label { color: var(--text-muted); }
 
+.today .value { color: #0891b2; }
+.today .label { color: var(--text-muted); }
+
 .pending .value { color: #6b7280; }
 .pending .label { color: var(--text-muted); }
 

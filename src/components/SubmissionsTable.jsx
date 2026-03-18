@@ -1,14 +1,28 @@
 import React, { useState, useMemo } from 'react'
-import StatusBadge from './StatusBadge'
 import StatusControl from './StatusControl'
+import ConfirmModal from './ConfirmModal'
 import { formatSubmissionDate } from '../utils/dateFormatter'
 import styles from './SubmissionsTable.module.css'
 
 const STATUS_SORT_ORDER = { not_reviewed: 0, accepted: 1, rejected: 2 }
-const COL_COUNT = 7
+const COL_COUNT = 9
 
-export default function SubmissionsTable({ submissions, isFiltered, onStatusChange, onNoteChange }) {
+export default function SubmissionsTable({ submissions, isFiltered, onStatusChange, onNoteChange, onRemove }) {
   const [statusSort, setStatusSort] = useState(null) // null | 'asc' | 'desc'
+  const [pendingDeleteId, setPendingDeleteId] = useState(null)
+
+  function requestDelete(id) {
+    setPendingDeleteId(id)
+  }
+
+  function confirmDelete() {
+    onRemove(pendingDeleteId)
+    setPendingDeleteId(null)
+  }
+
+  function cancelDelete() {
+    setPendingDeleteId(null)
+  }
 
   function toggleStatusSort() {
     setStatusSort((prev) => {
@@ -40,16 +54,18 @@ export default function SubmissionsTable({ submissions, isFiltered, onStatusChan
             <th className={styles.th}>Full Name</th>
             <th className={styles.th}>Phone</th>
             <th className={styles.th}>Instagram</th>
+            <th className={styles.th}>TikTok</th>
             <th className={styles.th}>Video</th>
             <th className={styles.th}>Submitted</th>
+            <th className={styles.th}>Platform</th>
             <th
               className={`${styles.th} ${styles.sortable}`}
               onClick={toggleStatusSort}
               title="Click to sort by status"
             >
-              Status <span className={styles.sortIcon}>{sortIcon}</span>
+              Change Status <span className={styles.sortIcon}>{sortIcon}</span>
             </th>
-            <th className={styles.th}>Change Status</th>
+            <th className={styles.th}></th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +89,20 @@ export default function SubmissionsTable({ submissions, isFiltered, onStatusChan
                   </a>
                 </td>
                 <td className={styles.td}>
+                  {submission.tiktok ? (
+                    <a
+                      href={`https://tiktok.com/@${submission.tiktok}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.tiktokLink}
+                    >
+                      @{submission.tiktok}
+                    </a>
+                  ) : (
+                    <span className={styles.emptyCell}>—</span>
+                  )}
+                </td>
+                <td className={styles.td}>
                   <a
                     href={submission.videoLink}
                     target="_blank"
@@ -89,20 +119,30 @@ export default function SubmissionsTable({ submissions, isFiltered, onStatusChan
                   <span className={styles.date}>{formatSubmissionDate(submission.submittedAt)}</span>
                 </td>
                 <td className={styles.td}>
-                  <div className={styles.statusCell}>
-                    <StatusBadge status={submission.status} />
-                    {submission.rejectionNote && (
-                      <span className={styles.notePreview} title={submission.rejectionNote}>
-                        {submission.rejectionNote}
-                      </span>
-                    )}
-                  </div>
+                  <span className={submission.submissionType === 'myelino' ? styles.platformMyelino : styles.platformSocial}>
+                    {submission.submissionType === 'myelino' ? 'Myelino' : 'Social Media'}
+                  </span>
                 </td>
                 <td className={styles.td}>
                   <StatusControl
                     currentStatus={submission.status}
                     onStatusChange={(status) => onStatusChange(submission.id, status)}
                   />
+                </td>
+                <td className={styles.td}>
+                  <button
+                    className={styles.removeBtn}
+                    onClick={() => requestDelete(submission.id)}
+                    aria-label={`Remove submission from ${submission.fullName}`}
+                    title="Remove submission"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="3 6 5 6 21 6" />
+                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                      <path d="M10 11v6M14 11v6" />
+                      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                    </svg>
+                  </button>
                 </td>
               </tr>
 
@@ -134,6 +174,13 @@ export default function SubmissionsTable({ submissions, isFiltered, onStatusChan
           ))}
         </tbody>
       </table>
+      <ConfirmModal
+        isOpen={pendingDeleteId !== null}
+        title="Delete submission?"
+        message="This will permanently remove the submission. This action cannot be undone."
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   )
 }

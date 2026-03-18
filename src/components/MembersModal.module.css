@@ -1,0 +1,348 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 560px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0 }
+  to   { transform: translateY(0);    opacity: 1 }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+}
+
+.closeBtn:hover {
+  background: var(--border-light);
+  color: var(--text-primary);
+}
+
+.body {
+  padding: 20px 28px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inline error */
+.inlineError {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius-sm);
+  color: #991b1b;
+  font-size: 13px;
+}
+
+.inlineError span {
+  flex: 1;
+}
+
+.errorDismiss {
+  border: none;
+  background: none;
+  color: #991b1b;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  opacity: 0.7;
+}
+
+.errorDismiss:hover {
+  opacity: 1;
+}
+
+/* Add section */
+.addSection {
+  flex-shrink: 0;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 16px;
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--accent-dark);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background 0.12s, color 0.12s;
+}
+
+.addBtn:hover {
+  background: var(--accent-light);
+}
+
+/* Add member form */
+.addForm {
+  background: #f8fffe;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.addFormTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.addGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 14px;
+}
+
+.addField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.addLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.addInput {
+  height: 36px;
+  padding: 0 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--text-primary);
+  background: var(--surface);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: var(--font);
+}
+
+.addInput::placeholder {
+  color: var(--text-muted);
+}
+
+.addInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(42, 191, 191, 0.1);
+}
+
+.addInputError {
+  border-color: #f87171;
+}
+
+.addError {
+  font-size: 11.5px;
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.addFormActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 2px;
+}
+
+.cancelAddBtn {
+  height: 34px;
+  padding: 0 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: background 0.12s;
+}
+
+.cancelAddBtn:hover {
+  background: var(--border-light);
+}
+
+.saveBtn {
+  height: 34px;
+  padding: 0 18px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: white;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background 0.12s, box-shadow 0.12s;
+  box-shadow: 0 2px 6px rgba(42, 191, 191, 0.25);
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Members list */
+.listSection {
+  flex: 1;
+}
+
+.stateText {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px 0;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 24px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.emptyTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.emptySubtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.memberList {
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.1s;
+}
+
+.memberRow:last-child {
+  border-bottom: none;
+}
+
+.memberRow:hover {
+  background: var(--surface-hover);
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.memberName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.memberMeta {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.dot {
+  color: var(--border);
+  font-size: 14px;
+}
+
+.tiktokTag {
+  font-size: 10px;
+  font-weight: 700;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 4px;
+  padding: 1px 5px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.optionalTag {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 11px;
+}

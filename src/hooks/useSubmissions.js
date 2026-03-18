@@ -4,6 +4,7 @@ import {
   insertSubmission,
   updateSubmissionStatus,
   updateSubmissionNote,
+  deleteSubmission,
 } from '../services/submissionsService'
 
 const NOTE_DEBOUNCE_MS = 600
@@ -60,5 +61,15 @@ export function useSubmissions() {
     }, NOTE_DEBOUNCE_MS)
   }, [])
 
-  return { submissions, loading, error, clearError, addSubmission, updateStatus, updateNote }
+  const removeSubmission = useCallback(async (id) => {
+    setSubmissions((prev) => prev.filter((s) => s.id !== id))
+    try {
+      await deleteSubmission(id)
+    } catch (err) {
+      setError(err.message ?? 'Failed to delete submission')
+      fetchSubmissions().then(setSubmissions).catch(() => {})
+    }
+  }, [])
+
+  return { submissions, loading, error, clearError, addSubmission, updateStatus, updateNote, removeSubmission }
 }

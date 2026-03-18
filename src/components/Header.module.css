@@ -17,6 +17,19 @@
   justify-content: space-between;
 }
 
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -49,6 +62,55 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.membersBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  padding: 4px 2px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.membersBtn:hover {
+  color: var(--text-primary);
+}
+
+.myelinoBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #7c3aed;
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+}
+
+.myelinoBtn:hover {
+  background: #6d28d9;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.38);
+  transform: translateY(-1px);
+}
+
+.myelinoBtn:active {
+  transform: translateY(0);
 }
 
 .submitBtn {

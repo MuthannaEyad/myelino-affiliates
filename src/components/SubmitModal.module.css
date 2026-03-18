@@ -168,3 +168,94 @@
 .submitBtn:active {
   transform: translateY(0);
 }
+
+.submitBtnMyelino {
+  background: #7c3aed;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+}
+
+.submitBtnMyelino:hover {
+  background: #6d28d9;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+}
+
+.submitBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Member dropdown select */
+.select {
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--surface);
+  outline: none;
+  font-family: var(--font);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(42, 191, 191, 0.12);
+}
+
+.selectError {
+  border-color: #f87171;
+}
+
+.selectLoading,
+.selectEmpty {
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--text-muted);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  font-style: italic;
+}
+
+/* Auto-filled fields — 2 cols top row, TikTok full-width below */
+.autoFillRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.autoFillRow > :last-child {
+  grid-column: 1 / -1;
+}
+
+/* Read-only confirmed field */
+.readonlyField {
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-secondary);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.readonlyEmpty {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
+}

@@ -1,0 +1,11 @@
+- Push to repo
+    git add .
+    git commit -m "your message here"
+    git push
+
+- Update PROD
+    npm run deploy  
+
+- Run locally
+    npm install
+    npm run dev
