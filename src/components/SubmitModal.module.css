@@ -116,6 +116,28 @@
   color: var(--text-muted);
 }
 
+.memberHint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.memberHintLink {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-dark);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: color 0.12s;
+}
+
+.memberHintLink:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 .error {
   font-size: 12px;
   color: #dc2626;

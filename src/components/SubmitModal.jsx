@@ -18,7 +18,7 @@ const MODE_CONFIG = {
   },
 }
 
-export default function SubmitModal({ isOpen, onClose, onSubmit, members, membersLoading, mode = 'social' }) {
+export default function SubmitModal({ isOpen, onClose, onSubmit, members, membersLoading, mode = 'social', onOpenMembers }) {
   const [form, setForm] = useState(EMPTY_FORM)
   const [errors, setErrors] = useState({})
   const selectRef = useRef(null)
@@ -114,6 +114,14 @@ export default function SubmitModal({ isOpen, onClose, onSubmit, members, member
               </select>
             )}
             {errors.memberId && <span className={styles.error}>{errors.memberId}</span>}
+            {!membersLoading && (
+              <span className={styles.memberHint}>
+                Not listed?{' '}
+                <button type="button" className={styles.memberHintLink} onClick={() => { onClose(); onOpenMembers?.() }}>
+                  Add yourself as a member →
+                </button>
+              </span>
+            )}
           </div>
 
           {/* Auto-filled confirmation fields */}

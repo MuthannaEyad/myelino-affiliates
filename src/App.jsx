@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import Header from './components/Header'
 import SubmitModal from './components/SubmitModal'
 import MembersModal from './components/MembersModal'
+import MembersCTA from './components/MembersCTA'
 import SubmissionsTable from './components/SubmissionsTable'
 import StatsBar from './components/StatsBar'
 import SearchBar from './components/SearchBar'
@@ -62,7 +63,6 @@ export default function App() {
       <Header
         onSubmitClick={() => setModalMode('social')}
         onMyelinoClick={() => setModalMode('myelino')}
-        onMembersClick={() => setIsMembersOpen(true)}
       />
       <AnnouncementBanner />
 
@@ -85,6 +85,8 @@ export default function App() {
 
           <TypeFilter value={typeFilter} onChange={setTypeFilter} />
 
+          <MembersCTA onOpen={() => setIsMembersOpen(true)} />
+
           {loading ? (
             <TableSkeleton />
           ) : (
@@ -106,6 +108,7 @@ export default function App() {
         members={members}
         membersLoading={membersLoading}
         mode={modalMode ?? 'social'}
+        onOpenMembers={() => setIsMembersOpen(true)}
       />
 
       <MembersModal
