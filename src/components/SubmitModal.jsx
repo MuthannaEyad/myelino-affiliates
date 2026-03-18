@@ -3,6 +3,21 @@ import styles from './SubmitModal.module.css'
 
 const EMPTY_FORM = { memberId: '', videoLink: '' }
 
+// Extracts the first http/https URL found in a block of text
+function extractUrl(text) {
+  const match = text.match(/(https?:\/\/[^\s]+)/i)
+  return match ? match[1] : null
+}
+
+function isValidUrl(str) {
+  try {
+    const url = new URL(str)
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
 const MODE_CONFIG = {
   social: {
     title: 'Submit a Video',
@@ -45,7 +60,12 @@ export default function SubmitModal({ isOpen, onClose, onSubmit, members, member
   function validate() {
     const errs = {}
     if (!form.memberId) errs.memberId = 'Please select a member'
-    if (!form.videoLink.trim()) errs.videoLink = `${config.linkLabel} is required`
+    const link = form.videoLink.trim()
+    if (!link) {
+      errs.videoLink = `${config.linkLabel} is required`
+    } else if (!isValidUrl(link)) {
+      errs.videoLink = 'Please paste a valid link (must start with https://)'
+    }
     return errs
   }
 
@@ -53,6 +73,17 @@ export default function SubmitModal({ isOpen, onClose, onSubmit, members, member
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }))
+  }
+
+  function handleLinkPaste(e) {
+    e.preventDefault()
+    const pasted = e.clipboardData.getData('text')
+    // If the pasted text is already a clean URL, use it directly
+    // If it contains extra text (e.g. "Check out this post\nhttps://..."), extract the URL
+    const url = isValidUrl(pasted.trim()) ? pasted.trim() : extractUrl(pasted)
+    const resolved = url ?? pasted.trim()
+    setForm((prev) => ({ ...prev, videoLink: resolved }))
+    setErrors((prev) => ({ ...prev, videoLink: undefined }))
   }
 
   function handleSubmit(e) {
@@ -152,10 +183,11 @@ export default function SubmitModal({ isOpen, onClose, onSubmit, members, member
             <input
               id="videoLink"
               name="videoLink"
-              type="url"
+              type="text"
               placeholder={config.linkPlaceholder}
               value={form.videoLink}
               onChange={handleChange}
+              onPaste={handleLinkPaste}
               className={`${styles.input} ${errors.videoLink ? styles.inputError : ''}`}
               autoComplete="off"
             />
