@@ -102,3 +102,18 @@
   background: #b91c1c;
   box-shadow: 0 4px 10px rgba(220, 38, 38, 0.35);
 }
+
+.warningBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  text-align: left;
+  color: #92400e;
+  font-size: 12.5px;
+  line-height: 1.5;
+  width: 100%;
+}

@@ -2,18 +2,19 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import {
   fetchSubmissions,
   insertSubmission,
-  updateSubmissionStatus,
-  updateSubmissionNote,
+  updateMyelinoPosted,
+  updateTiktokPosted,
   deleteSubmission,
 } from '../services/submissionsService'
 
-const NOTE_DEBOUNCE_MS = 600
+const DEBOUNCE_MS = 600
 
 export function useSubmissions() {
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const noteTimers = useRef({})
+  const myelinoTimers = useRef({})
+  const tiktokTimers = useRef({})
 
   useEffect(() => {
     fetchSubmissions()
@@ -33,32 +34,43 @@ export function useSubmissions() {
     }
   }, [])
 
-  const updateStatus = useCallback(async (id, status) => {
-    // Optimistic update — reflect instantly in the UI
-    const previous = submissions
-    setSubmissions((prev) => prev.map((s) => (s.id === id ? { ...s, status } : s)))
-    try {
-      await updateSubmissionStatus(id, status)
-    } catch (err) {
-      setSubmissions(previous) // revert on failure
-      setError(err.message ?? 'Failed to update status')
-    }
-  }, [submissions])
-
-  const updateNote = useCallback((id, rejectionNote) => {
-    // Local state update is immediate for smooth typing
+  const updateMyelino = useCallback((id, posted, count) => {
+    // Optimistic update
     setSubmissions((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, rejectionNote } : s))
+      prev.map((s) =>
+        s.id === id
+          ? { ...s, postedOnMyelino: posted, myelinoCount: posted ? (count || 0) : 0 }
+          : s
+      )
     )
-    // DB write is debounced to avoid hammering on every keystroke
-    clearTimeout(noteTimers.current[id])
-    noteTimers.current[id] = setTimeout(async () => {
+    // Debounced save to avoid hammering DB on every count keystroke
+    clearTimeout(myelinoTimers.current[id])
+    myelinoTimers.current[id] = setTimeout(async () => {
       try {
-        await updateSubmissionNote(id, rejectionNote)
+        await updateMyelinoPosted(id, posted, count)
       } catch (err) {
-        setError(err.message ?? 'Failed to save rejection note')
+        setError(err.message ?? 'Failed to update Myelino status')
       }
-    }, NOTE_DEBOUNCE_MS)
+    }, DEBOUNCE_MS)
+  }, [])
+
+  const updateTiktok = useCallback((id, posted, count) => {
+    // Optimistic update
+    setSubmissions((prev) =>
+      prev.map((s) =>
+        s.id === id
+          ? { ...s, postedOnTiktok: posted, tiktokCount: posted ? (count || 0) : 0 }
+          : s
+      )
+    )
+    clearTimeout(tiktokTimers.current[id])
+    tiktokTimers.current[id] = setTimeout(async () => {
+      try {
+        await updateTiktokPosted(id, posted, count)
+      } catch (err) {
+        setError(err.message ?? 'Failed to update TikTok status')
+      }
+    }, DEBOUNCE_MS)
   }, [])
 
   const removeSubmission = useCallback(async (id) => {
@@ -71,5 +83,14 @@ export function useSubmissions() {
     }
   }, [])
 
-  return { submissions, loading, error, clearError, addSubmission, updateStatus, updateNote, removeSubmission }
+  return {
+    submissions,
+    loading,
+    error,
+    clearError,
+    addSubmission,
+    updateMyelino,
+    updateTiktok,
+    removeSubmission,
+  }
 }

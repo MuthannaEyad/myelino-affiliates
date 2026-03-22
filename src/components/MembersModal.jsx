@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import ConfirmModal from './ConfirmModal'
 import styles from './MembersModal.module.css'
 
 const EMPTY_MEMBER = { fullName: '', instagram: '', tiktok: '', phone: '' }
@@ -17,6 +18,7 @@ export default function MembersModal({
   const [addForm, setAddForm] = useState(EMPTY_MEMBER)
   const [addErrors, setAddErrors] = useState({})
   const [adding, setAdding] = useState(false)
+  const [pendingDelete, setPendingDelete] = useState(null) // { id, name }
   const firstFieldRef = useRef(null)
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function MembersModal({
       setShowAddForm(false)
       setAddForm(EMPTY_MEMBER)
       setAddErrors({})
+      setPendingDelete(null)
     }
   }, [isOpen])
 
@@ -187,10 +190,35 @@ export default function MembersModal({
                         {member.phone}
                       </span>
                     </div>
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={() => setPendingDelete({ id: member.id, name: member.fullName })}
+                      aria-label={`Delete ${member.fullName}`}
+                      title="Delete member"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <path d="M10 11v6M14 11v6" />
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                      </svg>
+                    </button>
                   </li>
                 ))}
               </ul>
             )}
+
+            <ConfirmModal
+              isOpen={pendingDelete !== null}
+              title={`Remove ${pendingDelete?.name ?? 'member'}?`}
+              message={`This will permanently remove ${pendingDelete?.name ?? 'this member'} from the affiliate members list.`}
+              warning="Admin action only — only authorized admins should delete members. All deletions are logged and will be reviewed."
+              onConfirm={() => {
+                removeMember(pendingDelete.id)
+                setPendingDelete(null)
+              }}
+              onCancel={() => setPendingDelete(null)}
+            />
           </div>
         </div>
       </div>

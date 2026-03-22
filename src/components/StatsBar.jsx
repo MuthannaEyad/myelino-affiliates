@@ -1,29 +1,17 @@
 import React from 'react'
 import styles from './StatsBar.module.css'
 
-function isToday(isoString) {
-  const d = new Date(isoString)
-  const now = new Date()
-  return (
-    d.getFullYear() === now.getFullYear() &&
-    d.getMonth() === now.getMonth() &&
-    d.getDate() === now.getDate()
-  )
-}
-
-export default function StatsBar({ submissions }) {
-  const total = submissions.length
-  const today = submissions.filter((s) => isToday(s.submittedAt)).length
-  const accepted = submissions.filter((s) => s.status === 'accepted').length
-  const rejected = submissions.filter((s) => s.status === 'rejected').length
-  const pending = submissions.filter((s) => s.status === 'not_reviewed').length
+export default function StatsBar({ members, tracking }) {
+  const total = members.length
+  const onMyelino = Object.values(tracking).filter((t) => t.posted_on_myelino).length
+  const onInstagram = Object.values(tracking).filter((t) => t.posted_on_instagram).length
+  const onTiktok = Object.values(tracking).filter((t) => t.posted_on_tiktok).length
 
   const stats = [
-    { label: 'Total', value: total, className: styles.total },
-    { label: 'Today', value: today, className: styles.today },
-    { label: 'Not Reviewed', value: pending, className: styles.pending },
-    { label: 'Accepted', value: accepted, className: styles.accepted },
-    { label: 'Rejected', value: rejected, className: styles.rejected },
+    { label: 'Members', value: total, className: styles.total },
+    { label: 'On Myelino', value: onMyelino, className: styles.myelino },
+    { label: 'On Instagram', value: onInstagram, className: styles.instagram },
+    { label: 'On TikTok', value: onTiktok, className: styles.tiktok },
   ]
 
   return (

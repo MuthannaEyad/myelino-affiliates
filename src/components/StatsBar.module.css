@@ -8,12 +8,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 14px 24px;
+  padding: 14px 28px;
   border-radius: var(--radius-md);
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  min-width: 100px;
+  min-width: 120px;
   gap: 2px;
 }
 
@@ -34,14 +34,11 @@
 .total .value { color: var(--text-primary); }
 .total .label { color: var(--text-muted); }
 
-.today .value { color: #0891b2; }
-.today .label { color: var(--text-muted); }
+.myelino .value { color: #7c3aed; }
+.myelino .label { color: var(--text-muted); }
 
-.pending .value { color: #6b7280; }
-.pending .label { color: var(--text-muted); }
+.instagram .value { color: #e1306c; }
+.instagram .label { color: var(--text-muted); }
 
-.accepted .value { color: #059669; }
-.accepted .label { color: var(--text-muted); }
-
-.rejected .value { color: #dc2626; }
-.rejected .label { color: var(--text-muted); }
+.tiktok .value { color: #15803d; }
+.tiktok .label { color: var(--text-muted); }

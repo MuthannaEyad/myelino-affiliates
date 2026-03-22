@@ -1,115 +1,107 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import Header from './components/Header'
-import SubmitModal from './components/SubmitModal'
 import MembersModal from './components/MembersModal'
-import MembersCTA from './components/MembersCTA'
-import SubmissionsTable from './components/SubmissionsTable'
+import DailyTable from './components/DailyTable'
 import StatsBar from './components/StatsBar'
-import SearchBar from './components/SearchBar'
-import TypeFilter from './components/TypeFilter'
-import TableSkeleton from './components/TableSkeleton'
+import DateNav from './components/DateNav'
 import Toast from './components/Toast'
 import AnnouncementBanner from './components/AnnouncementBanner'
-import { useSubmissions } from './hooks/useSubmissions'
 import { useMembers } from './hooks/useMembers'
+import { useDailyTracking } from './hooks/useDailyTracking'
 import styles from './App.module.css'
 
-function matchesSearch(submission, query) {
-  const q = query.toLowerCase()
-  return (
-    submission.fullName.toLowerCase().includes(q) ||
-    submission.instagram.toLowerCase().includes(q) ||
-    submission.phone.toLowerCase().includes(q)
-  )
-}
-
-function isToday(isoString) {
-  const d = new Date(isoString)
-  const now = new Date()
-  return (
-    d.getFullYear() === now.getFullYear() &&
-    d.getMonth() === now.getMonth() &&
-    d.getDate() === now.getDate()
-  )
-}
-
 export default function App() {
-  // null = closed, 'social' | 'myelino' = which modal is open
-  const [modalMode, setModalMode] = useState(null)
   const [isMembersOpen, setIsMembersOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [typeFilter, setTypeFilter] = useState('all')
+  const [selectedDate, setSelectedDate] = useState(new Date())
 
-  const { submissions, loading, error, clearError, addSubmission, updateStatus, updateNote, removeSubmission } = useSubmissions()
-  const { members, loading: membersLoading, error: membersError, clearError: clearMembersError, addMember, removeMember } = useMembers()
+  const {
+    members,
+    loading: membersLoading,
+    error: membersError,
+    clearError: clearMembersError,
+    addMember,
+    removeMember,
+  } = useMembers()
 
-  const filteredSubmissions = useMemo(() => {
-    let result = submissions
+  const {
+    tracking,
+    error: trackingError,
+    clearError: clearTrackingError,
+    updateTracking,
+  } = useDailyTracking(selectedDate)
 
-    const q = searchQuery.trim()
-    if (q) result = result.filter((s) => matchesSearch(s, q))
+  function prevDay() {
+    setSelectedDate((d) => {
+      const nd = new Date(d)
+      nd.setDate(nd.getDate() - 1)
+      return nd
+    })
+  }
 
-    if (typeFilter === 'social')  result = result.filter((s) => s.submissionType === 'social')
-    if (typeFilter === 'myelino') result = result.filter((s) => s.submissionType === 'myelino')
-    if (typeFilter === 'today')   result = result.filter((s) => isToday(s.submittedAt))
+  function nextDay() {
+    setSelectedDate((d) => {
+      const nd = new Date(d)
+      nd.setDate(nd.getDate() + 1)
+      return nd
+    })
+  }
 
-    return result
-  }, [submissions, searchQuery, typeFilter])
-
-  const isFiltered = searchQuery.trim().length > 0 || typeFilter !== 'all'
+  const error = membersError || trackingError
+  function clearError() {
+    clearMembersError()
+    clearTrackingError()
+  }
 
   return (
     <div className={styles.app}>
-      <Header
-        onSubmitClick={() => setModalMode('social')}
-        onMyelinoClick={() => setModalMode('myelino')}
-      />
+      <Header />
       <AnnouncementBanner />
 
       <main className={styles.main}>
         <div className={styles.container}>
-          <div className={styles.pageHeader}>
+
+          <div className={styles.topRow}>
             <div>
-              <h1 className={styles.pageTitle}>Affiliate Submissions</h1>
+              <h1 className={styles.pageTitle}>Daily Affiliate Tracking</h1>
               <p className={styles.pageSubtitle}>
-                Review and manage all incoming affiliate video submissions.
+                Track which members posted on Myelino, Instagram, or TikTok each day.
               </p>
             </div>
+            <button
+              className={styles.addMemberBtn}
+              onClick={() => setIsMembersOpen(true)}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <line x1="19" y1="8" x2="19" y2="14" />
+                <line x1="22" y1="11" x2="16" y2="11" />
+              </svg>
+              Add new member
+            </button>
           </div>
 
-          <StatsBar submissions={submissions} />
+          <StatsBar members={members} tracking={tracking} />
 
           <div className={styles.tableControls}>
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <DateNav
+              selectedDate={selectedDate}
+              onPrev={prevDay}
+              onNext={nextDay}
+            />
           </div>
 
-          <TypeFilter value={typeFilter} onChange={setTypeFilter} />
-
-          <MembersCTA onOpen={() => setIsMembersOpen(true)} />
-
-          {loading ? (
-            <TableSkeleton />
+          {membersLoading ? (
+            <div className={styles.loadingMsg}>Loading members…</div>
           ) : (
-            <SubmissionsTable
-              submissions={filteredSubmissions}
-              isFiltered={isFiltered}
-              onStatusChange={updateStatus}
-              onNoteChange={updateNote}
-              onRemove={removeSubmission}
+            <DailyTable
+              members={members}
+              tracking={tracking}
+              onUpdate={updateTracking}
             />
           )}
         </div>
       </main>
-
-      <SubmitModal
-        isOpen={modalMode !== null}
-        onClose={() => setModalMode(null)}
-        onSubmit={addSubmission}
-        members={members}
-        membersLoading={membersLoading}
-        mode={modalMode ?? 'social'}
-        onOpenMembers={() => setIsMembersOpen(true)}
-      />
 
       <MembersModal
         isOpen={isMembersOpen}

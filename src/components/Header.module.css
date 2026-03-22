@@ -57,29 +57,24 @@
   gap: 10px;
 }
 
-.myelinoBtn {
+.membersBtn {
   display: flex;
   align-items: center;
   gap: 7px;
-  background: #7c3aed;
-  color: white;
-  border: none;
-  padding: 9px 18px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+  padding: 8px 16px;
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 600;
-  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.myelinoBtn:hover {
-  background: #6d28d9;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.38);
-  transform: translateY(-1px);
-}
-
-.myelinoBtn:active {
-  transform: translateY(0);
+.membersBtn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
 }
 
 .submitBtn {

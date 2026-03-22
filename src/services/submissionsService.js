@@ -9,10 +9,11 @@ function fromDb(row) {
     instagram: row.instagram,
     tiktok: row.tiktok ?? '',
     videoLink: row.video_link,
-    submissionType: row.submission_type ?? 'social',
-    status: row.status,
-    rejectionNote: row.rejection_note ?? '',
     submittedAt: row.created_at,
+    postedOnMyelino: row.posted_on_myelino ?? false,
+    myelinoCount: row.myelino_count ?? 0,
+    postedOnTiktok: row.posted_on_tiktok ?? false,
+    tiktokCount: row.tiktok_count ?? 0,
   }
 }
 
@@ -35,8 +36,7 @@ export async function insertSubmission(formData) {
       instagram: formData.instagram.trim().replace(/^@+/, ''),
       tiktok: formData.tiktok ? formData.tiktok.trim().replace(/^@+/, '') : null,
       video_link: formData.videoLink.trim(),
-      submission_type: formData.submissionType ?? 'social',
-      status: 'not_reviewed',
+      status: 'not_reviewed', // kept for DB compatibility
     })
     .select()
     .single()
@@ -45,19 +45,25 @@ export async function insertSubmission(formData) {
   return fromDb(data)
 }
 
-export async function updateSubmissionStatus(id, status) {
+export async function updateMyelinoPosted(id, posted, count) {
   const { error } = await supabase
     .from('submissions')
-    .update({ status })
+    .update({
+      posted_on_myelino: posted,
+      myelino_count: posted ? (count || 0) : 0,
+    })
     .eq('id', id)
 
   if (error) throw error
 }
 
-export async function updateSubmissionNote(id, rejectionNote) {
+export async function updateTiktokPosted(id, posted, count) {
   const { error } = await supabase
     .from('submissions')
-    .update({ rejection_note: rejectionNote })
+    .update({
+      posted_on_tiktok: posted,
+      tiktok_count: posted ? (count || 0) : 0,
+    })
     .eq('id', id)
 
   if (error) throw error
