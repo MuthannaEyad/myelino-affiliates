@@ -79,3 +79,189 @@
   color: var(--text-muted);
   font-size: 14px;
 }
+
+/* Executive top-right button group */
+.execActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--text-secondary);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.backBtn:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+  background: var(--surface);
+}
+
+/* Affiliate "Not you?" inline link */
+.changeNameBtn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 500;
+  margin-left: 10px;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.changeNameBtn:hover {
+  color: var(--accent-dark);
+}
+
+/* Executive View button (affiliate mode, top-right) */
+.execViewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--text-secondary);
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.execViewBtn:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+  background: var(--surface);
+}
+
+/* ── Executive password modal ───────────────────── */
+.pwOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.pwDialog {
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px 28px 24px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pwIconWrap {
+  width: 44px;
+  height: 44px;
+  background: #f3e8ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c3fcf;
+  margin-bottom: 14px;
+}
+
+.pwTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px;
+}
+
+.pwSubtitle {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.pwInput {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+  letter-spacing: 0.1em;
+}
+
+.pwInput:focus {
+  border-color: #6c3fcf;
+}
+
+.pwError {
+  font-size: 0.8rem;
+  color: #b91c1c;
+  margin: 8px 0 0;
+  text-align: left;
+  width: 100%;
+}
+
+.pwActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.pwCancelBtn {
+  flex: 1;
+  padding: 9px 0;
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.pwCancelBtn:hover {
+  background: #e5e7eb;
+}
+
+.pwConfirmBtn {
+  flex: 1;
+  padding: 9px 0;
+  background: #6c3fcf;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.pwConfirmBtn:hover {
+  background: #5a31b0;
+}

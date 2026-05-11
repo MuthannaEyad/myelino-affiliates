@@ -19,7 +19,7 @@ export function useMembers() {
     try {
       const member = await insertMember(memberData)
       setMembers((prev) => [...prev, member])
-      return true
+      return member
     } catch (err) {
       setError(err.message ?? 'Failed to add member')
       return false
