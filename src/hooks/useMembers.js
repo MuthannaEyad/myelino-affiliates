@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { fetchMembers, insertMember, deleteMember } from '../services/membersService'
+import { fetchMembers, insertMember, updateMemberManager, deleteMember } from '../services/membersService'
 
 export function useMembers() {
   const [members, setMembers] = useState([])
@@ -26,8 +26,20 @@ export function useMembers() {
     }
   }, [])
 
+  // managerId can be a UUID string or null (to unassign)
+  const assignMember = useCallback(async (memberId, managerId) => {
+    setMembers((prev) =>
+      prev.map((m) => (m.id === memberId ? { ...m, managerId: managerId ?? null } : m))
+    )
+    try {
+      await updateMemberManager(memberId, managerId)
+    } catch (err) {
+      setError(err.message ?? 'Failed to update assignment')
+      fetchMembers().then(setMembers).catch(() => {})
+    }
+  }, [])
+
   const removeMember = useCallback(async (id) => {
-    // Optimistic update
     setMembers((prev) => prev.filter((m) => m.id !== id))
     try {
       await deleteMember(id)
@@ -37,5 +49,5 @@ export function useMembers() {
     }
   }, [])
 
-  return { members, loading, error, clearError, addMember, removeMember }
+  return { members, loading, error, clearError, addMember, assignMember, removeMember }
 }

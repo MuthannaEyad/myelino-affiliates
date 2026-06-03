@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ConfirmModal from './ConfirmModal'
 import styles from './DailyTable.module.css'
 
-export default function DailyTable({ members, tracking, onUpdate }) {
+export default function DailyTable({ members, tracking, onUpdate, onDelete }) {
+  const [pendingDelete, setPendingDelete] = useState(null) // { id, fullName }
   if (members.length === 0) {
     return (
       <div className={styles.empty}>
@@ -20,6 +22,7 @@ export default function DailyTable({ members, tracking, onUpdate }) {
   }
 
   return (
+    <>
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
         <thead>
@@ -31,6 +34,7 @@ export default function DailyTable({ members, tracking, onUpdate }) {
             <th className={styles.th}>On Myelino</th>
             <th className={styles.th}>On Instagram</th>
             <th className={styles.th}>On TikTok</th>
+            {onDelete && <th className={styles.th} />}
           </tr>
         </thead>
         <tbody>
@@ -120,12 +124,40 @@ export default function DailyTable({ members, tracking, onUpdate }) {
                     ariaLabel="TikTok videos"
                   />
                 </td>
+
+                {onDelete && (
+                  <td className={styles.td}>
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={() => setPendingDelete({ id: member.id, fullName: member.fullName })}
+                      aria-label={`Delete ${member.fullName}`}
+                      title="Delete affiliate"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <path d="M10 11v6M14 11v6" />
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                      </svg>
+                    </button>
+                  </td>
+                )}
               </tr>
             )
           })}
         </tbody>
       </table>
     </div>
+
+    <ConfirmModal
+      isOpen={pendingDelete !== null}
+      title={`Delete ${pendingDelete?.fullName ?? 'member'}?`}
+      message={`This will permanently remove ${pendingDelete?.fullName ?? 'this member'} and all their tracking data.`}
+      warning="This action cannot be undone."
+      onConfirm={() => { onDelete(pendingDelete.id); setPendingDelete(null) }}
+      onCancel={() => setPendingDelete(null)}
+    />
+    </>
   )
 }
 

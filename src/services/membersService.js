@@ -7,6 +7,7 @@ function fromDb(row) {
     instagram: row.instagram,
     tiktok: row.tiktok ?? '',
     phone: row.phone,
+    managerId: row.manager_id ?? null,
   }
 }
 
@@ -28,12 +29,22 @@ export async function insertMember(memberData) {
       instagram: memberData.instagram.trim().replace(/^@+/, ''),
       tiktok: memberData.tiktok.trim().replace(/^@+/, '') || null,
       phone: memberData.phone.trim(),
+      manager_id: memberData.managerId || null,
     })
     .select()
     .single()
 
   if (error) throw error
   return fromDb(data)
+}
+
+export async function updateMemberManager(memberId, managerId) {
+  const { error } = await supabase
+    .from('members')
+    .update({ manager_id: managerId ?? null })
+    .eq('id', memberId)
+
+  if (error) throw error
 }
 
 export async function deleteMember(id) {

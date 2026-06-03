@@ -190,6 +190,25 @@
   box-shadow: 0 0 0 3px rgba(42, 191, 191, 0.12);
 }
 
+/* Delete button */
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.12s, background 0.12s;
+}
+
+.deleteBtn:hover {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
 /* Empty state */
 .empty {
   display: flex;

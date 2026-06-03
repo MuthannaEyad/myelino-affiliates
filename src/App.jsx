@@ -7,7 +7,8 @@ import StatsBar from './components/StatsBar'
 import DateNav from './components/DateNav'
 import Toast from './components/Toast'
 import AnnouncementBanner from './components/AnnouncementBanner'
-import MemberSearch from './components/MemberSearch'
+import OrgChart from './components/OrgChart'
+import ProfilePhotoCard from './components/ProfilePhotoCard'
 import { useMembers } from './hooks/useMembers'
 import { useDailyTracking } from './hooks/useDailyTracking'
 import styles from './App.module.css'
@@ -32,6 +33,7 @@ export default function App() {
     error: membersError,
     clearError: clearMembersError,
     addMember,
+    assignMember,
     removeMember,
   } = useMembers()
 
@@ -116,12 +118,13 @@ export default function App() {
         <div className={styles.container}>
 
           {showMemberSearch ? (
-            <MemberSearch
+            <OrgChart
               members={members}
               loading={membersLoading}
               onSelect={setAffiliateMember}
               onExecClick={openExecPwModal}
               addMember={addMember}
+              assignMember={assignMember}
             />
           ) : (
             <>
@@ -194,7 +197,12 @@ export default function App() {
                   members={membersToShow}
                   tracking={tracking}
                   onUpdate={updateTracking}
+                  onDelete={isExecutive ? removeMember : undefined}
                 />
+              )}
+
+              {!isExecutive && affiliateMember && (
+                <ProfilePhotoCard member={affiliateMember} />
               )}
 
               {isExecutive && (

@@ -1,0 +1,177 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px 28px;
+}
+
+/* ── Drop zone / photo circle ── */
+.dropZone {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  overflow: hidden;
+  outline: none;
+}
+
+.dropZone:focus-visible {
+  box-shadow: 0 0 0 3px rgba(42, 191, 191, 0.35);
+}
+
+.dragOver .emptyZone,
+.dragOver .photo {
+  opacity: 0.7;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+  transition: opacity 0.15s;
+}
+
+/* Overlay shown on hover when photo exists */
+.photoOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.dropZone:hover .photoOverlay {
+  opacity: 1;
+}
+
+/* Empty state inside drop zone */
+.emptyZone {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--accent-light);
+  border: 2.5px dashed var(--accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.dropZone:hover .emptyZone,
+.dragOver .emptyZone {
+  background: #d0f4f4;
+  border-color: var(--accent-dark);
+}
+
+.initials {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent-dark);
+  line-height: 1;
+}
+
+.uploadHint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ── Right info ── */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.uploadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.uploadBtn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.uploadBtn:active { transform: translateY(0); }
+
+.removeBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 2px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.12s;
+}
+
+.removeBtn:hover { color: #b91c1c; }
+
+.hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+@media (max-width: 500px) {
+  .card { flex-direction: column; align-items: flex-start; }
+  .dropZone { width: 80px; height: 80px; }
+  .initials { font-size: 22px; }
+}
