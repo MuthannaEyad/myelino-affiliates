@@ -9,7 +9,12 @@ import Toast from './components/Toast'
 import AnnouncementBanner from './components/AnnouncementBanner'
 import OrgChart from './components/OrgChart'
 import ProfilePhotoCard from './components/ProfilePhotoCard'
+import BudgetBar from './components/BudgetBar'
+import DownloadsTracker from './components/DownloadsTracker'
+import TopCreatorsEditor from './components/TopCreatorsEditor'
+import TopCreatorsPodium from './components/TopCreatorsPodium'
 import { useMembers } from './hooks/useMembers'
+import { useTopCreators } from './hooks/useTopCreators'
 import { useDailyTracking } from './hooks/useDailyTracking'
 import styles from './App.module.css'
 
@@ -27,6 +32,8 @@ export default function App() {
   const [execPwError, setExecPwError] = useState(null)
   const execPwInputRef = useRef(null)
 
+  const { topCreators, saveAll } = useTopCreators()
+
   const {
     members,
     loading: membersLoading,
@@ -34,6 +41,7 @@ export default function App() {
     clearError: clearMembersError,
     addMember,
     assignMember,
+    updateDownloads,
     removeMember,
   } = useMembers()
 
@@ -118,14 +126,18 @@ export default function App() {
         <div className={styles.container}>
 
           {showMemberSearch ? (
-            <OrgChart
-              members={members}
-              loading={membersLoading}
-              onSelect={setAffiliateMember}
-              onExecClick={openExecPwModal}
-              addMember={addMember}
-              assignMember={assignMember}
-            />
+            <>
+              <TopCreatorsPodium topCreators={topCreators} members={members} />
+              <BudgetBar isExecutive={false} />
+              <OrgChart
+                members={members}
+                loading={membersLoading}
+                onSelect={setAffiliateMember}
+                onExecClick={openExecPwModal}
+                addMember={addMember}
+                assignMember={assignMember}
+              />
+            </>
           ) : (
             <>
               <div className={styles.topRow}>
@@ -180,7 +192,39 @@ export default function App() {
                 )}
               </div>
 
+              {isExecutive && <BudgetBar isExecutive />}
+
+              {isExecutive && (
+                <TopCreatorsEditor
+                  topCreators={topCreators}
+                  members={members}
+                  onSave={saveAll}
+                />
+              )}
+
+              {isExecutive && (
+                <DownloadsTracker members={members} onSave={updateDownloads} />
+              )}
+
               {isExecutive && <StatsBar members={members} tracking={tracking} />}
+
+              {!isExecutive && affiliateMember && (
+                <div className={styles.downloadsStat}>
+                  <div className={styles.downloadsIcon}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className={styles.downloadsNum}>
+                      {(members.find(m => m.id === affiliateMember.id) ?? affiliateMember).downloads.toLocaleString()}
+                    </p>
+                    <p className={styles.downloadsLabel}>Total Downloads</p>
+                  </div>
+                </div>
+              )}
 
               <div className={styles.tableControls}>
                 <DateNav

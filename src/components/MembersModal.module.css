@@ -366,3 +366,9 @@
   border-color: #fca5a5;
   color: #dc2626;
 }
+
+@media (max-width: 640px) {
+  .overlay { padding: 12px; }
+  .modal { max-height: 90vh; }
+  .modalHeader { padding: 16px 16px 14px; }
+}

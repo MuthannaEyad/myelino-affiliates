@@ -50,3 +50,8 @@
   font-weight: 700;
   color: #ffffff;
 }
+
+@media (max-width: 640px) {
+  .banner { padding: 8px 14px; }
+  .text { font-size: 12px; }
+}

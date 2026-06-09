@@ -441,7 +441,9 @@
   .unassignedList li { width: 50%; }
   .managerGrid { grid-template-columns: 1fr; }
   .pageHeader { flex-direction: column; align-items: flex-start; }
-  .headerActions { width: 100%; justify-content: flex-start; }
+  .headerActions { width: 100%; flex-direction: column; }
+  .addMemberBtn, .addManagerBtn, .execBtn { width: 100%; justify-content: center; }
+  .pageTitle { font-size: 18px; }
 }
 @media (max-width: 400px) { .unassignedList li { width: 100%; } }
 
@@ -472,6 +474,62 @@
   max-width: calc(100vw - 32px);
   box-shadow: var(--shadow-modal);
 }
+
+.removeMgrIcon {
+  width: 44px;
+  height: 44px;
+  background: #fef3c7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d97706;
+  margin: 0 auto 12px;
+}
+
+.removeMgrSubtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+
+.removePwInput {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.removePwInput:focus { border-color: var(--accent); }
+
+.removePwError {
+  font-size: 0.78rem;
+  color: #b91c1c;
+  margin: 4px 0 8px;
+}
+
+.removeConfirmBtn {
+  flex: 2;
+  padding: 9px 0;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.removeConfirmBtn:hover { background: #b91c1c; }
 
 .dialogTitle {
   font-size: 1rem;

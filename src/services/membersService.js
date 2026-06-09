@@ -8,6 +8,7 @@ function fromDb(row) {
     tiktok: row.tiktok ?? '',
     phone: row.phone,
     managerId: row.manager_id ?? null,
+    downloads: row.downloads ?? 0,
   }
 }
 
@@ -36,6 +37,15 @@ export async function insertMember(memberData) {
 
   if (error) throw error
   return fromDb(data)
+}
+
+export async function updateMemberDownloads(memberId, downloads) {
+  const { error } = await supabase
+    .from('members')
+    .update({ downloads })
+    .eq('id', memberId)
+
+  if (error) throw error
 }
 
 export async function updateMemberManager(memberId, managerId) {

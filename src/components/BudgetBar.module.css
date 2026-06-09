@@ -1,0 +1,209 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Top row ── */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.title {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Spent display */
+.amountRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spentGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spentValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.spentLabel {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.totalValue {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Edit button */
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+  margin-left: 4px;
+}
+
+.editBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+/* Inline edit */
+.editGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editCurrency {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.editInput {
+  width: 130px;
+  padding: 7px 10px;
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(42, 191, 191, 0.12);
+  -moz-appearance: textfield;
+}
+
+.editInput::-webkit-outer-spin-button,
+.editInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.saveBtn {
+  padding: 7px 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.saveBtn:hover { background: var(--accent-dark); }
+
+.discardBtn {
+  padding: 7px 10px;
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.discardBtn:hover { background: #f3f4f6; }
+
+/* ── Progress bar ── */
+.track {
+  width: 100%;
+  height: 10px;
+  background: var(--border-light);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0;
+}
+
+.barGreen  { background: linear-gradient(90deg, #10b981, #34d399); }
+.barYellow { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.barRed    { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.remaining {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.remainingDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.pct {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pctGreen  { color: #059669; }
+.pctYellow { color: #d97706; }
+.pctRed    { color: #dc2626; }
+
+@media (max-width: 640px) {
+  .card { padding: 14px 16px 12px; }
+  .editGroup { flex-wrap: wrap; gap: 6px; }
+  .editInput { width: 100px; }
+  .spentValue { font-size: 18px; }
+}

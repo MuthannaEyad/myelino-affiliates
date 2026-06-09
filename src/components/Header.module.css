@@ -111,3 +111,10 @@
 .submitBtn:active {
   transform: translateY(0);
 }
+
+@media (max-width: 640px) {
+  .inner { padding: 0 14px; height: 54px; }
+  .brandSub { display: none; }
+  .membersBtn span, .submitBtn span { display: none; }
+  .membersBtn, .submitBtn { padding: 8px 12px; }
+}

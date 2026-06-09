@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { fetchMembers, insertMember, updateMemberManager, deleteMember } from '../services/membersService'
+import { fetchMembers, insertMember, updateMemberManager, updateMemberDownloads, deleteMember } from '../services/membersService'
 
 export function useMembers() {
   const [members, setMembers] = useState([])
@@ -26,6 +26,18 @@ export function useMembers() {
     }
   }, [])
 
+  const updateDownloads = useCallback(async (memberId, downloads) => {
+    setMembers((prev) =>
+      prev.map((m) => (m.id === memberId ? { ...m, downloads } : m))
+    )
+    try {
+      await updateMemberDownloads(memberId, downloads)
+    } catch (err) {
+      setError(err.message ?? 'Failed to update downloads')
+      fetchMembers().then(setMembers).catch(() => {})
+    }
+  }, [])
+
   // managerId can be a UUID string or null (to unassign)
   const assignMember = useCallback(async (memberId, managerId) => {
     setMembers((prev) =>
@@ -49,5 +61,5 @@ export function useMembers() {
     }
   }, [])
 
-  return { members, loading, error, clearError, addMember, assignMember, removeMember }
+  return { members, loading, error, clearError, addMember, assignMember, updateDownloads, removeMember }
 }

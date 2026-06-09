@@ -26,6 +26,12 @@
   gap: 16px;
 }
 
+@media (max-width: 640px) {
+  .main { padding: 16px 0 40px; }
+  .container { padding: 0 14px; gap: 14px; }
+  .topRow { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
 .pageTitle {
   font-size: 22px;
   font-weight: 700;
@@ -71,6 +77,48 @@
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+/* Affiliate downloads stat */
+.downloadsStat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  box-shadow: var(--shadow-sm);
+  align-self: flex-start;
+}
+
+.downloadsIcon {
+  width: 44px;
+  height: 44px;
+  background: var(--accent-light);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.downloadsNum {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.downloadsLabel {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .loadingMsg {
@@ -148,6 +196,15 @@
   border-color: var(--text-muted);
   color: var(--text-primary);
   background: var(--surface);
+}
+
+@media (max-width: 640px) {
+  .execActions { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .execViewBtn { width: 100%; justify-content: center; }
+  .addMemberBtn { width: 100%; justify-content: center; }
+  .downloadsStat { align-self: stretch; }
+  .tableControls { justify-content: center; }
+  .pageTitle { font-size: 18px; }
 }
 
 /* ── Executive password modal ───────────────────── */

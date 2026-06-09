@@ -21,6 +21,12 @@ function Avatar({ photo, name, size = 40 }) {
 export default function OrgChart({ members, loading, onSelect, onExecClick, addMember, assignMember }) {
   const { managers, addManager, removeManager, updateManagerPhoto } = useManagers()
 
+  // Remove manager password prompt state
+  const [removePending, setRemovePending] = useState(null) // manager object
+  const [removePw, setRemovePw] = useState('')
+  const [removePwError, setRemovePwError] = useState(null)
+  const removePwRef = useRef(null)
+
   // Add Manager modal state
   const [addMgrOpen, setAddMgrOpen] = useState(false)
   const [mgrForm, setMgrForm] = useState({ name: '', title: '' })
@@ -52,6 +58,7 @@ export default function OrgChart({ members, loading, onSelect, onExecClick, addM
   // Focus helpers
   useEffect(() => { if (addMgrOpen) setTimeout(() => mgrNameRef.current?.focus(), 50) }, [addMgrOpen])
   useEffect(() => { if (addMemOpen) setTimeout(() => memNameRef.current?.focus(), 50) }, [addMemOpen])
+  useEffect(() => { if (removePending) setTimeout(() => removePwRef.current?.focus(), 50) }, [removePending])
 
   // Close assign dropdown on outside click
   useEffect(() => {
@@ -65,12 +72,25 @@ export default function OrgChart({ members, loading, onSelect, onExecClick, addM
   useEffect(() => {
     function onKey(e) {
       if (e.key !== 'Escape') return
-      if (addMgrOpen) closeMgrModal()
+      if (removePending) closeRemovePrompt()
+      else if (addMgrOpen) closeMgrModal()
       else if (addMemOpen) closeMemModal()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [addMgrOpen, addMemOpen])
+  }, [addMgrOpen, addMemOpen, removePending])
+
+  // ── Remove manager password prompt ──
+  function openRemovePrompt(manager) { setRemovePending(manager); setRemovePw(''); setRemovePwError(null) }
+  function closeRemovePrompt() { setRemovePending(null); setRemovePw(''); setRemovePwError(null) }
+  function confirmRemove() {
+    if (removePw === import.meta.env.VITE_SUMMARY_PASSWORD) {
+      removeManager(removePending.id)
+      closeRemovePrompt()
+    } else {
+      setRemovePwError('Incorrect password.')
+    }
+  }
 
   // ── Manager modal handlers ──
   function closeMgrModal() { setAddMgrOpen(false); setMgrForm({ name: '', title: '' }); setMgrErrors({}); setMgrPhoto(null) }
@@ -206,7 +226,7 @@ export default function OrgChart({ members, loading, onSelect, onExecClick, addM
                     {manager.title && <span className={styles.managerTitle}>{manager.title}</span>}
                   </div>
 
-                  <button className={styles.removeManagerBtn} onClick={() => removeManager(manager.id)} title="Remove manager">
+                  <button className={styles.removeManagerBtn} onClick={() => openRemovePrompt(manager)} title="Remove manager">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
                       <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                     </svg>
@@ -397,6 +417,39 @@ export default function OrgChart({ members, loading, onSelect, onExecClick, addM
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Remove Manager password prompt ── */}
+      {removePending && (
+        <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && closeRemovePrompt()}>
+          <div className={styles.dialog} role="dialog" aria-modal="true" aria-labelledby="remove-mgr-title" style={{ maxWidth: 360 }}>
+            <div className={styles.removeMgrIcon}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <h3 id="remove-mgr-title" className={styles.dialogTitle}>Remove Manager?</h3>
+            <p className={styles.removeMgrSubtitle}>
+              Enter the executive password to remove <strong>{removePending.name}</strong> and unassign all their affiliates.
+            </p>
+            <input
+              ref={removePwRef}
+              type="password"
+              className={styles.removePwInput}
+              placeholder="Password"
+              value={removePw}
+              onChange={(e) => { setRemovePw(e.target.value); setRemovePwError(null) }}
+              onKeyDown={(e) => e.key === 'Enter' && confirmRemove()}
+              autoComplete="off"
+            />
+            {removePwError && <p className={styles.removePwError}>{removePwError}</p>}
+            <div className={styles.dialogActions}>
+              <button className={styles.cancelBtn} onClick={closeRemovePrompt}>Cancel</button>
+              <button className={styles.removeConfirmBtn} onClick={confirmRemove}>Remove</button>
+            </div>
           </div>
         </div>
       )}

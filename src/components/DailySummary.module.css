@@ -8,6 +8,11 @@
   margin-bottom: 12px;
 }
 
+@media (max-width: 640px) {
+  .buttonRow { justify-content: stretch; }
+  .generateBtn { width: 100%; justify-content: center; }
+}
+
 .generateBtn {
   display: inline-flex;
   align-items: center;
