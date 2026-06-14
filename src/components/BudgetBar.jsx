@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import styles from './BudgetBar.module.css'
 
-const TOTAL_BUDGET = 30000
+const TOTAL_BUDGET = 500000
 
 function fmt(n) {
   return n.toLocaleString('en-AE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
@@ -78,7 +78,7 @@ export default function BudgetBar({ isExecutive }) {
             <line x1="12" y1="1" x2="12" y2="23" />
             <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
           </svg>
-          <span className={styles.title}>Monthly Budget</span>
+          <span className={styles.title}>Campaign Budget</span>
         </div>
 
         <div className={styles.amountRow}>
