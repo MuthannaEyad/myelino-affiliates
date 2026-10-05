@@ -1,0 +1,328 @@
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  scroll-margin-top: 80px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sectionTitle h2 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot_contact   { background: #6366f1; }
+.dot_meeting   { background: #f59e0b; }
+.dot_signed_up { background: var(--accent); }
+.dot_active    { background: #16a34a; }
+
+.count {
+  background: var(--border-light);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.15s, color 0.15s;
+}
+
+.addBtn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Table */
+.scroller {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 1400px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 10px 6px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+
+.table th:first-child { padding-left: 18px; }
+
+.table td {
+  padding: 4px 2px;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+
+.table td:first-child { padding-left: 12px; }
+
+.table tbody tr:last-child td { border-bottom: none; }
+
+.table tbody tr {
+  transition: background 0.6s;
+}
+
+.table tbody tr:hover {
+  background: #fafbfc;
+}
+
+.highlight {
+  background: var(--accent-light) !important;
+}
+
+/* Inline editing — fields look like text until hovered/focused */
+.input,
+.select {
+  width: 100%;
+  height: 34px;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  padding: 0 8px;
+  font-size: 13.5px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.input::placeholder {
+  color: #c4c8cf;
+}
+
+.input:hover,
+.select:hover {
+  border-color: var(--border);
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.select {
+  cursor: pointer;
+}
+
+/* Company stays visible while scrolling sideways */
+.table .companyCell {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 190px;
+  background: var(--surface);
+  box-shadow: 1px 0 0 var(--border-light);
+}
+
+.table th.companyCell { background: var(--bg); }
+.table tbody tr:hover .companyCell { background: #fafbfc; }
+.highlight .companyCell { background: var(--accent-light) !important; }
+
+.companyInput {
+  font-weight: 600;
+}
+
+.companyWrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Meeting table is narrower — no contact columns */
+.table_meeting {
+  min-width: 1050px;
+}
+
+.timeInput {
+  min-width: 110px;
+  color: var(--text-secondary);
+}
+
+.modeSelect {
+  min-width: 120px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.mode_in_person { color: #b45309; }
+.mode_online    { color: #4f46e5; }
+
+.handle {
+  display: flex;
+  align-items: center;
+}
+
+.at {
+  color: var(--text-muted);
+  padding-left: 8px;
+  margin-right: -6px;
+}
+
+.actionCell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 170px;
+}
+
+.actionSelect {
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0 10px;
+  height: 30px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.chase { background: #fef3c7; color: #92400e; }
+.meet  { background: #e0e7ff; color: #3730a3; }
+.close { background: #ede9fe; color: #5b21b6; }
+.care  { background: #dcfce7; color: #166534; }
+
+.doneBtn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.doneBtn:hover {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+.dateInput {
+  min-width: 130px;
+  color: var(--text-secondary);
+}
+
+.due_overdue { color: #dc2626; font-weight: 600; }
+.due_today   { color: #d97706; font-weight: 600; }
+
+.colContact   { min-width: 140px; }
+.colPhone     { min-width: 140px; }
+.colEmail     { min-width: 190px; }
+.colInstagram { min-width: 130px; }
+.notesCell    { min-width: 200px; width: 100%; }
+
+.notes {
+  display: block;
+  resize: none;
+  height: auto;
+  min-height: 34px;
+  max-height: 120px;
+  padding: 7px 8px;
+  line-height: 1.4;
+  field-sizing: content;
+}
+
+.stageSelect {
+  min-width: 112px;
+  font-weight: 600;
+}
+
+.stage_contact   { color: #4f46e5; }
+.stage_meeting   { color: #b45309; }
+.stage_signed_up { color: var(--accent-dark); }
+.stage_active    { color: #15803d; }
+
+.deleteCell {
+  width: 44px;
+  text-align: center;
+  padding-right: 10px !important;
+}
+
+.deleteBtn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+}
+
+.deleteBtn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.emptyRow {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 22px 12px !important;
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .sectionHead { padding: 12px 14px; }
+  .hint { display: none; }
+}

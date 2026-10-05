@@ -1,0 +1,84 @@
+.infoBtn {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  transition: background 0.12s, color 0.12s;
+}
+
+.infoBtn:hover,
+.infoBtnActive {
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.popover {
+  position: fixed;
+  z-index: 1050;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 14px 16px;
+  animation: pop 0.12s ease-out;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.heading {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 14px;
+  font-size: 13px;
+}
+
+.list dt {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.list dd {
+  color: var(--text-primary);
+  font-weight: 500;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.list a {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.list a:hover {
+  text-decoration: underline;
+}
+
+.notes {
+  white-space: pre-wrap;
+  font-weight: 400 !important;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--text-muted);
+}

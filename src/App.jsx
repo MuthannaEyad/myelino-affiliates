@@ -119,7 +119,7 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <Header onLogoClick={!showMemberSearch ? goHome : undefined} />
+      <Header onLogoClick={!showMemberSearch ? goHome : undefined} showSwitch />
       <AnnouncementBanner />
 
       <main className={styles.main}>
